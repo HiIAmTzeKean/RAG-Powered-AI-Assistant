@@ -1,5 +1,8 @@
+import getpass
+import os
+
 from langchain.prompts import PromptTemplate
-from langchain_groq import ChatGroq
+from langchain_mistralai import ChatMistralAI
 
 from ragssitant.chuncker.text_chuncker import TextChunker
 from ragssitant.db.persistant_db import VectorDB
@@ -31,7 +34,6 @@ Answer: Provide a comprehensive answer based on the research findings above.
 
 def main() -> None:
     documents_path = "./data"
-
     chunker = TextChunker(chunk_size=1000, chunk_overlap=200)
     publications = chunker.load_documents(documents_path)
     chunked_publications = chunker.process_documents(publications)
@@ -41,8 +43,10 @@ def main() -> None:
     vectordb.insert_documents(chunked_publications)
     print("Documents inserted into vector database.")
 
-    # Initialize LLM and get answer
-    llm = ChatGroq(model="llama3-8b-8192")
+    if "MISTRAL_API_KEY" not in os.environ:
+        os.environ["MISTRAL_API_KEY"] = getpass.getpass("Enter your Mistral API key: ")
+
+    llm = ChatMistralAI(name="mistral-small")
     answer, sources = answer_research_question(
         "What are effective techniques for handling class imbalance?", vectordb, llm
     )

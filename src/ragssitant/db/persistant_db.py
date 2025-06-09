@@ -22,11 +22,11 @@ class VectorDB(BaseModel):
             name=self.collection_name, metadata={"hnsw:space": "cosine"}
         )
         device = (
-            {"device": "cuda"}
+            "cuda"
             if torch.cuda.is_available()
-            else {"device": "mps"}
+            else "mps"
             if torch.backends.mps.is_available()
-            else {"device": "cpu"}
+            else "cpu"
         )
         self._embeddings_model = HuggingFaceEmbeddings(
             model_name=self.model_name,
