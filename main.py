@@ -24,6 +24,7 @@ def main() -> None:
     answer, sources = llm.answer_question(
         args.query, vectordb
     )
+    print("Query:", args.query)
     print("AI Answer:", answer)
     print("\nBased on sources:")
     for source in sources:

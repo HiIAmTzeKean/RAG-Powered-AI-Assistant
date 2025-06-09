@@ -1,26 +1,26 @@
 import importlib.resources
 import os
-from typing import Optional
+from typing import Any, Optional
 
 import dotenv
 from langchain.prompts import PromptTemplate
 from langchain_mistralai import ChatMistralAI
-from pydantic import BaseModel
+from pydantic import BaseModel, PrivateAttr
 
 from ragssitant.db.persistant_db import VectorDB
 
 
 class Mistral(BaseModel):
-    llm: Optional[ChatMistralAI] = None
+    _llm: ChatMistralAI = PrivateAttr()
 
     def __init__(self, **data) -> None:
         super().__init__(**data)
         dotenv.load_dotenv(".env")
         if "MISTRAL_API_KEY" not in os.environ:
             raise ValueError("MISTRAL_API_KEY environment variable is not set. Please set it in your .env file.")
-        self.llm = ChatMistralAI(name="mistral-small")
+        self._llm = ChatMistralAI(name="mistral-small")
 
-    def answer_question(self, query: str, vectordb: VectorDB):
+    def answer_question(self, query: str, vectordb: VectorDB) -> tuple[str, list[dict[str, Any]]]:
         """
         Generate an answer based on retrieved research.
         """
@@ -34,5 +34,6 @@ class Mistral(BaseModel):
             template=template_str,
         )
         prompt = prompt_template.format(context=context, question=query)
-        response = self.llm.invoke(prompt)
+        response = self._llm.invoke(prompt)
+        assert isinstance(response.content, str), "Response content should be a string"
         return response.content, relevant_chunks
