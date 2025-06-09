@@ -1,3 +1,4 @@
+import os
 from typing import Any, Dict, List
 
 import chromadb
@@ -17,6 +18,7 @@ class VectorDB(BaseModel):
 
     def __init__(self, **data) -> None:
         super().__init__(**data)
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
         self._client = chromadb.PersistentClient(path=self.db_path)
         self._collection = self._client.get_or_create_collection(
             name=self.collection_name, metadata={"hnsw:space": "cosine"}
