@@ -1,7 +1,7 @@
 [project]
-name = "ragssitant"
-version = "0.1.0"
-description = "Add your description here"
+name = "rag-ssistant"
+version = "0.1.1"
+description = "RAGssistant: A RAG Assistant for your tasks"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -21,8 +21,8 @@ dependencies = [
 ]
 
 [project.scripts]
-cli = "ragssitant.cli:main"
-ui = "ragssitant.ui:main"
+cli = "rag_ssistant.cli:main"
+ui = "rag_ssistant.ui:main"
 
 [build-system]
 requires = ["hatchling"]
