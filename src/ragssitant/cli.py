@@ -21,9 +21,7 @@ def main() -> None:
     print("Documents inserted into vector database.")
 
     llm = Mistral()
-    answer, sources = llm.answer_question(
-        args.query, vectordb
-    )
+    answer, sources = llm.answer_question(args.query, vectordb)
     print("Query:", args.query)
     print("AI Answer:", answer)
     print("\nBased on sources:")

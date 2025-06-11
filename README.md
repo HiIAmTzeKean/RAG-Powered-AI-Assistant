@@ -25,8 +25,18 @@ Welcome to the RAG-Powered AI Assistant repository! This project demonstrates ho
 
 ## Usage
 
+### CLI
+
 To run the AI assistant, use the following command after ensuring that the environment variables are set:
 
 ```bash
-uv run main.py "<your question here>"
+uv run cli "What are effective techniques for handling class imbalance?"
+```
+
+### Web UI
+
+To run the web UI, use the following command and navigate to [the page](http://127.0.0.1:8000) in your web browser:
+
+```bash
+uv run ui
 ```
